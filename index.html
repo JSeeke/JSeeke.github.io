@@ -5,7 +5,7 @@
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 -->
 <html><head>
-		<title>Stellar by HTML5 UP</title>
+		<title>Renee & Justin Seating Chart</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 		<link rel="stylesheet" href="assets/css/main.css">
@@ -15,9 +15,11 @@
 		<!-- Wrapper -->
         <div id="wrapper">
             <div id="main">
-                <p>We're so glad you're here for our wedding!</p>
-                <input type="text" id="guestName" placeholder="Enter your name" required>
-                <button type="submit">Lookup my Table</button>
+                <p id="main-message" class="fancy-header">We're so glad you made it!</p>
+                <input type="text" id="guestName" class="fancy-subtext" placeholder="Enter your name" required>
+                <div>
+                    <button id="lookup-table" type="submit" class="fancy-subtext" onclick="lookupTable()">Lookup your Table</button>
+                </div>
             </div>
         </div>
 
@@ -29,4 +31,53 @@
         <script src="assets/js/breakpoints.min.js"></script>
         <script src="assets/js/util.js"></script>
         <script src="assets/js/main.js"></script>
-</body></html>
+</body>
+
+<script>
+    window.addEventListener("DOMContentLoaded", () => {
+        const elements = document.querySelectorAll("#main *");
+        elements.forEach((el, i) => {
+            setTimeout(() => {
+            el.classList.add("visible");
+            }, i * 500 + 1000); // ms delay between each
+            el.classList.add("fade-in");
+        });
+    });
+
+
+    // Sample guest list
+    const guestList = {
+      "justin seeke": "The Sweetheart Table <3",
+      "renee seeke": "The Sweetheart Table <3",
+      "tim seeke": "Table 1",
+      "haeza seeke": "Table 1",
+      "rick Brown": "Table 2",
+      "elain Brown": "Table 2"
+    };
+
+    function lookupTable() {
+        const input = document.getElementById("guestName").value.trim();
+        const resultDiv = document.getElementById("main-message");
+
+        // Start fade-out
+        resultDiv.classList.add("hidden");
+
+        // After fade-out completes, update text and fade in
+        setTimeout(() => {
+            // change class
+            if (resultDiv.classList.contains("fancy-header")) {
+                resultDiv.classList.remove("fancy-header");
+                resultDiv.classList.add("fancy-subtext");
+            }
+            // update text
+            if (guestList[input.toLowerCase()]) {
+                resultDiv.textContent = `Hi ${input},\nyou're at ${guestList[input.toLowerCase()]}.`;
+            } else {
+                resultDiv.textContent = `Oops, did you spell your name correctly?`;
+            }
+            resultDiv.classList.remove("hidden"); // Fade in
+        }, 1000); // Match the CSS transition duration (500ms)
+    }
+</script>
+
+</html>
