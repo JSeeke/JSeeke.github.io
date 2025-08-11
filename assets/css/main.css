@@ -3785,8 +3785,8 @@ input, select, textarea {
 }
 
 #main-message {
+	font-size: 2rem !important;
 	transition: opacity 0.5s ease;
-	font-size: 2rem;
 	color: #2c2c2c;
 	margin-top: 20px;
 	padding-bottom: 5vh;
