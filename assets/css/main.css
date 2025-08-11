@@ -3766,17 +3766,25 @@ input, select, textarea {
 }
 
 .fancy-subtext {
-  font-family: 'Lora', serif;
-  font-size: 0.9rem !important;
-  font-weight: 400;
-  letter-spacing: 2px;
-  color: #2c2c2c;
-  text-align: center;
-  text-transform: uppercase;
+	font-family: 'Lora', serif;
+	font-size: 1.1rem !important;
+	font-weight: 400;
+	letter-spacing: 2px;
+	color: #2c2c2c;
+	text-align: center;
+	text-transform: uppercase;
+}
+
+#table-list {
+	padding-bottom: 5vh;
+}
+
+#table-list p {
+    font-size: 0.9rem;
+    margin: 0.6vh auto;
 }
 
 #main-message {
-	opacity: 1;
 	transition: opacity 0.5s ease;
 	font-size: 2rem;
 	color: #2c2c2c;
@@ -3784,12 +3792,19 @@ input, select, textarea {
 	padding-bottom: 5vh;
 }
 
+#main-message.fancy-header {
+    margin: auto;
+}
+
 #main-message.hidden {
 	opacity: 0;
 }
 
-#main * {
+#main {
 	width: 80%;
+}
+
+#main * {
 	margin: 1vh auto;
 }
 
@@ -3806,4 +3821,32 @@ input, select, textarea {
 .fade-in.visible {
   opacity: 1;
   transform: translateY(0);
+}
+
+/* Smooth fade for the #result box */
+#result {
+	height: 505px;
+	display: flex;
+    flex-direction: column;
+	opacity: 1;
+	transition: opacity 1000ms ease; /* match JS timing */
+}
+
+#result.is-fading {
+	opacity: 0;
+	pointer-events: none; /* optional */
+}
+
+input:focus, textarea:focus, select:focus {
+    outline: none;                /* removes default blue outline */
+    border: 2px solid black !important;      /* adds your custom black border */
+    box-shadow: none;             /* removes any extra glow */
+}
+
+#lookup-table:focus,
+#lookup-table:active {
+    outline: none;              /* removes default blue outline */
+    border: 2px solid black !important;    /* custom border */
+    background-color: inherit;  /* keep same background */
+    box-shadow: none;           /* remove blue glow */
 }

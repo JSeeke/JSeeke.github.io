@@ -15,7 +15,10 @@
 		<!-- Wrapper -->
         <div id="wrapper">
             <div id="main">
-                <p id="main-message" class="fancy-header">We're so glad you made it!</p>
+                <div id="result">
+                    <p id="main-message" class="fancy-header">We're so glad you made it!</p>
+                    <div id="table-list" class="fancy-subtext"></div>
+                </div>
                 <input type="text" id="guestName" class="fancy-subtext" placeholder="Enter your name" required>
                 <div>
                     <button id="lookup-table" type="submit" class="fancy-subtext" onclick="lookupTable()">Lookup your Table</button>
@@ -46,37 +49,215 @@
 
 
     // Sample guest list
-    const guestList = {
-      "justin seeke": "The Sweetheart Table <3",
-      "renee seeke": "The Sweetheart Table <3",
-      "tim seeke": "Table 1",
-      "haeza seeke": "Table 1",
-      "rick Brown": "Table 2",
-      "elain Brown": "Table 2"
+    const seatingChart = {
+        "The Sweetheart Table <3": [
+            "Justin Seeke",
+            "Renee Seeke"
+        ],
+        "Table 1": [
+            "Haeza Seeke",
+            "Tim Seeke",
+            "Nadine Seeke",
+            "Tom Seeke",
+            "Greg Seeke",
+            "Lori Seeke",
+            "Courtney Seeke",
+            "Claire Vreeland",
+            "Steven Vreeland",
+            "Sally Seeke"
+        ],
+        "Table 2": [
+            "Rick Brown",
+            "Elaine Brown",
+            "Rita Patterson",
+            "Sean Patterson",
+            "Chris Carr",
+            "Brenda Corpuz Carr",
+            "Matt Hansen",
+            "Jaye Hansen",
+            "Jay Hathaway",
+            "Sandy Hathawy"
+        ],
+        "Table 3": [
+            "Jason Seeke",
+            "Ashley Seeke",
+            "Cameron Seeke",
+            "Adelyn Seeke",
+            "Ana St. Peter",
+            "Drew  St. Peter",
+            "Lauren  St. Peter",
+            "Debbie  St. Peter",
+            "Scott  St. Peter"
+        ],
+        "Table 4": [
+            "Rachel Brown",
+            "Tyler Newhall",
+            "Oliva Ruiz",
+            "Drew Marshall",
+            "Jackson Lucas",
+            "Savannah Lucas",
+            "Mikayla Pugel",
+            "Patryk Moeller",
+            "Nate Brown",
+            "Ryan Brown"
+        ],
+        "Table 5": [
+            "Hitesh Varshney",
+            "Tiffany Varshney",
+            "Andrew Karaki",
+            "Rahul Gangwani",
+            "Ari Alexanian",
+            "Andrew Atchison",
+            "Amber Ulasich",
+            "JoEllen Connell"
+        ],
+        "Table 6": [
+            "Nihall Sitaraman",
+            "Mary Kathryn Holliday",
+            "Gabby Dumler",
+            "Jake Dumler",
+            "Sara Dethloff",
+            "Ben Shrout",
+            "Max Provan",
+            "Brooke Gabor"
+        ],
+        "Table 7": [
+            "Nic Bartlett",
+            "Evan Kaftka",
+            "Joe Buschemi",
+            "Katie Athis",
+            "Owen Kirby",
+            "Anna Lia Santilli",
+            "Hunter Graff",
+            "John Shank",
+            "Carly Rias"
+        ],
+        "Table 8": [
+            "Brenna Allgood",
+            "Graham Allgood",
+            "Merit Bell",
+            "Bruce Bell",
+            "Sarah Smith",
+            "Luke Smith",
+            "Kylie Fletcher",
+            "Syrus Fletcher"
+        ],
+        "Table 9": [
+            "Chip Brown",
+            "Lory Brown",
+            "Jamie Galloway",
+            "Louie Galloway",
+            "Bonnie Galloway",
+            "Greyson Galloway",
+            "Melissa Brown",
+            "Joel Brown",
+            "Justin Brown",
+            "BreYana Sawyer"
+        ],
+        "Table 10": [
+            "Nick Brown",
+            "Amy Brown",
+            "Connor Cottrell",
+            "Emily Cottrell",
+            "Alissa Cottrell",
+            "Hannah Schultz",
+            "Ethan Brown",
+            "Joseph Brown",
+            "Alaina Eberle",
+            "Madison Brown"
+        ],
+        "Table 11": [
+            "Agnes Pugel",
+            "Mike Pugel",
+            "Ruth Connell",
+            "Heather Willman",
+            "Justin Glydewell",
+            "Sarah Reese",
+            "Ayden Brophy",
+            "David Reese",
+            "Eva Reese",
+            "Dalinda Reese",
+            "Clarke Reese"
+        ],
+        "Table 12": [
+            "Michong Hoots",
+            "Jim Hoots",
+            "Young Kim",
+            "Jake Kim",
+            "YJ Darling",
+            "Katie Darling",
+            "Paula Parker",
+            "Bob Parker",
+        ],
+        "Table 13": [
+            "Cindy Libby",
+            "Mike Libby",
+            "Ellie Libby",
+            "Kayla Libby",
+            "Katie Libby",
+            "Leanna Libby",
+            "Dianne Iagulli",
+            "Ric Iagulli",
+            "Shannon Iagulli",
+            "Nic Iagulli"
+        ]
     };
 
     function lookupTable() {
-        const input = document.getElementById("guestName").value.trim();
-        const resultDiv = document.getElementById("main-message");
+        const guestName = document.getElementById("guestName").value.trim();
+        const resultDiv = document.getElementById("result");
+        const mainMessage = document.getElementById("main-message");
+        const tableListDiv = document.getElementById("table-list");
 
         // Start fade-out
-        resultDiv.classList.add("hidden");
+        resultDiv.classList.add("is-fading");
 
-        // After fade-out completes, update text and fade in
-        setTimeout(() => {
-            // change class
-            if (resultDiv.classList.contains("fancy-header")) {
-                resultDiv.classList.remove("fancy-header");
-                resultDiv.classList.add("fancy-subtext");
+        // When fade-out finishes, update content, then fade back in
+        const onFadeOut = (e) => {
+            if (e.propertyName !== "opacity") return; // only once for opacity
+            resultDiv.removeEventListener("transitionend", onFadeOut);
+
+            // swap header style once
+            if (mainMessage.classList.contains("fancy-header")) {
+                mainMessage.classList.remove("fancy-header");
+                mainMessage.classList.add("fancy-subtext");
             }
-            // update text
-            if (guestList[input.toLowerCase()]) {
-                resultDiv.textContent = `Hi ${input},\nyou're at ${guestList[input.toLowerCase()]}.`;
+
+            // rebuild content
+            tableListDiv.innerHTML = "";
+            const table = searchSeatingChart(guestName.toLowerCase());
+            if (table) {
+                mainMessage.textContent = table;
+                const tableMembers = seatingChart[table];
+                for (const member of tableMembers) {
+                    const p = document.createElement("p");
+                    p.textContent = member;
+                    tableListDiv.append(p);
+                }
             } else {
-                resultDiv.textContent = `Oops, did you spell your name correctly?`;
+                mainMessage.textContent = "Oops, did you spell your name correctly?";
             }
-            resultDiv.classList.remove("hidden"); // Fade in
-        }, 1000); // Match the CSS transition duration (500ms)
+
+            // fade back in
+            requestAnimationFrame(() => {
+                resultDiv.classList.remove("is-fading");
+            });
+        };
+
+        resultDiv.addEventListener("transitionend", onFadeOut);
+    }
+
+    function searchSeatingChart(name) {
+        for (const table in seatingChart) {
+            tableList = seatingChart[table]
+            for (const tableIndex in tableList) {
+                guest = tableList[tableIndex]
+                if (guest.toLowerCase() == name.toLowerCase()) {
+                    return table
+                }
+            }
+        }
+        return null
     }
 </script>
 
