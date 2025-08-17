@@ -118,7 +118,7 @@ input, select, textarea {
 
 	body {
 		background-color: #FFFFF0;
-		color: rgba(255, 255, 255, 0.65);
+		color: white;
 	}
 
 	body, input, select, textarea {
@@ -2169,7 +2169,7 @@ input, select, textarea {
 
 	input[type="checkbox"] + label,
 	input[type="radio"] + label {
-		color: rgba(255, 255, 255, 0.65);
+		color: white;
 	}
 
 		input[type="checkbox"] + label:before,
